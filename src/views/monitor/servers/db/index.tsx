@@ -2,12 +2,11 @@ import { defineComponent, ref } from 'vue'
 import { NGrid, NGi, NNumberAnimation, NIcon } from 'naive-ui'
 import { useDatabase } from '@/views/monitor/servers/db/use-database'
 import { CheckCircleOutlined, CloseCircleOutlined } from '@vicons/antd'
-import Card from '@/components/card'
 import Result from '@/components/result'
 import styles from './index.module.scss'
 import type { Ref } from 'vue'
 import type { DatabaseRes } from '@/service/modules/monitor/types'
-
+// TODO: 퍼블 검토 및 아이콘등 필요
 const db = defineComponent({
   name: 'db',
   setup() {
@@ -27,61 +26,73 @@ const db = defineComponent({
         size={'medium'}
       />
     ) : (
-      <NGrid x-gap='12' y-gap='8' cols='2 2xl:4' responsive='screen'>
-        <NGi>
-          <Card title='동작 상태'>
-            <div class={styles.health}>
-              {databaseRef[0] &&
-                (databaseRef[0].state ? (
-                  <NIcon class={styles['health-success']}>
-                    <CheckCircleOutlined />
-                  </NIcon>
-                ) : (
-                  <NIcon class={styles['health-error']}>
-                    <CloseCircleOutlined />
-                  </NIcon>
-                ))}
+      <div class={styles.container}>
+        <div class="h-flex">
+          <div class={[styles.graphBox, "contentBox"]}>
+            <div class="titleWrap">
+              <div class="title">동작 상태 </div>
             </div>
-          </Card>
-        </NGi>
-        <NGi>
-          <Card
-            title={`${'최대 연결수'}${
-              databaseRef[0] ? ' - ' + databaseRef[0].date : ''
-            }`}
-          >
-            <div class={styles.connections}>
-              {databaseRef[0] && (
-                <NNumberAnimation from={0} to={databaseRef[0].maxConnections} />
-              )}
+            <div class="chartWrap">
+              <div class={styles.card}>
+                {databaseRef[0] &&
+                  (databaseRef[0].state ? (
+                    <NIcon class={styles['health-success']}>
+                      <CheckCircleOutlined />
+                    </NIcon>
+                  ) : (
+                    <NIcon class={styles['health-error']}>
+                      <CloseCircleOutlined />
+                    </NIcon>
+                  ))}
+              </div>
             </div>
-          </Card>
-        </NGi>
-        <NGi>
-          <Card title='스레드 연결 수'>
-            <div class={styles.connections}>
-              {databaseRef[0] && (
-                <NNumberAnimation
-                  from={0}
-                  to={databaseRef[0].threadsConnections}
-                />
-              )}
+          </div>
+          <div class={[styles.graphBox, "contentBox"]}>
+            <div class="titleWrap">
+              <div class="title">최대 연결수 {databaseRef[0] ? ' - ' + databaseRef[0].date : ''} </div>
             </div>
-          </Card>
-        </NGi>
-        <NGi>
-          <Card title='실행 중인 스레드 연결 수'>
-            <div class={styles.connections}>
-              {databaseRef[0] && (
-                <NNumberAnimation
-                  from={0}
-                  to={databaseRef[0].threadsRunningConnections}
-                />
-              )}
+            <div class="chartWrap">
+              <div class={styles.connections}>
+                {databaseRef[0] && (
+                  <NNumberAnimation from={0} to={databaseRef[0].maxConnections} />
+                )}
+              </div>
             </div>
-          </Card>
-        </NGi>
-      </NGrid>
+          </div>
+        </div>
+        <div class="h-flex">
+          <div class={[styles.graphBox, "contentBox"]}>
+            <div class="titleWrap">
+              <div class="title">스레드 연결 수 </div>
+            </div>
+            <div class="chartWrap">
+              <div class={styles.connections}>
+                {databaseRef[0] && (
+                  <NNumberAnimation
+                    from={0}
+                    to={databaseRef[0].threadsConnections}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+          <div class={[styles.graphBox, "contentBox"]}>
+            <div class="titleWrap">
+              <div class="title">실행 중인 스레드 연결 수 </div>
+            </div>
+            <div class="chartWrap">
+              <div class={styles.connections}>
+                {databaseRef[0] && (
+                  <NNumberAnimation
+                    from={0}
+                    to={databaseRef[0].threadsRunningConnections}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 })
