@@ -499,17 +499,8 @@ input[type="radio"]{
         align-items: center;
       }
     }
-    .no-data {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 10px;
-      font-weight: 500;
-      color: #99A1B7;
-    }
   }
-
+  
   &.open {
     .data {
       border: 1px solid #1A6CD5;
@@ -520,6 +511,16 @@ input[type="radio"]{
       } 
     }
   }
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  font-weight: 500;
+  color: #99A1B7;
 }
 
 .rdbtn-group {
@@ -661,7 +662,8 @@ input[type="radio"]{
             justify-content: center;
             gap: 8px;
           }  
-                    
+                
+          &:has(.no-data) {height: 200px;}
         }
       }
     }
@@ -848,6 +850,9 @@ input[type="radio"]{
 .btn-treeview {
   @include create_btn_in_ic_16(treeview); 
 }
+.btn-edit {
+  @include create_btn_in_ic_16(edit); 
+}
 .btn-export {
   @include create_btn_in_ic_16(export); 
 }
@@ -905,7 +910,6 @@ input[type="radio"]{
 .btn-run {
   @include create_btn_in_ic_16(run); 
 }
-
 
 .btn-ic-info {
   @include create_btn_icon(info);
@@ -967,9 +971,12 @@ input[type="radio"]{
   padding: 0 12px;  
 
   .data-box {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 8px;
+    padding-right: 8px;
+    overflow: hidden;
     input[type="datetime-local"] {
       // &::-webkit-calendar-picker-indicator {
       //   display: none;
@@ -984,11 +991,35 @@ input[type="radio"]{
       &::-webkit-calendar-picker-indicator {
         width: 150px;
         position: absolute;
-        right: -105px;
+        left: calc(100% - 15px);
+        top: 10px;
         background: url(#{$img-path}ic_calendar_16.svg);
         background-repeat: no-repeat;
       }
     }
+  }
+}
+
+.btn-input-box {
+  display: flex;
+  input[type="text"] {
+    height: 36px;
+    border: 1px solid #DBDFE9;
+    min-width: 160px;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+  .btn-input {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #DBDFE9;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left: 0;
+    background-color: #F4F7F6;
+    background-image: url(#{$img-path}ic_btn_input_16.svg);
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
 
@@ -1040,8 +1071,39 @@ input[type="radio"]{
       }
     }
   }
-}
 
+  .tabWrap {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #DBDFE9;
+
+    li {
+      position: relative;
+      cursor: pointer;
+      height: 38px;
+      padding: 4px 16px 15px 16px;
+      color: #78829D;
+      font-size: 16px;
+      font-weight: 500;
+
+      &.cur {
+        color: #1A6CD5;
+
+        &::after {
+          position: absolute;
+          content: '';
+          height: 2px;
+          width: 100%;
+          background: #1A6CD5;
+          left: 0;bottom: -1px;
+        }
+      }
+    }
+  }
+}
+.jistify-end {
+  justify-content: flex-end !important;
+}
 .pick-date-group {
   .title-wrap {
     display: flex;
@@ -1371,6 +1433,13 @@ input[type="radio"]{
   height: 36px;
   content: url(#{$img-path}ic_nodata_36.svg);
 }
+
+.ic-check-110 {
+  width: 110px;
+  height: 110px;
+  content: url(#{$img-path}ic_check_110.svg);
+}
+
 // main
 .layoutWrap {
   width: 100%;
